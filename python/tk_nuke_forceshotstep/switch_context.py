@@ -32,8 +32,12 @@ def execute():
         tk = sgtk.sgtk_from_entity("Task",result[0]["id"])
         ctx = tk.context_from_entity("Task", result[0]["id"])
         print "Changing context to " +str(ctx)
-        sgtk.platform.current_engine().destroy()
-        sgtk.platform.start_engine('tk-nuke',ctx.tank, ctx)
+        # Old Code
+        #sgtk.platform.current_engine().destroy()
+        #sgtk.platform.start_engine('tk-nuke',ctx.tank, ctx)
+        
+        # New Code
+        sgtk.platform.change_context(ctx)
     except:
         QtGui.QMessageBox.warning(None,"Force Shot-Step Context","tk-nuke-forceshotstep Could not switch context! Check to be sure that the current shot has a compositing task.")
         raise TankError("tk-nuke-forceshotstep Could not switch context! Check to be sure that the current shot has a compositing task.")
