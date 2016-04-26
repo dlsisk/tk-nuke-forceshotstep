@@ -39,8 +39,8 @@ def execute():
         # New Code
         sgtk.platform.change_context(ctx)
     except:
-        QtGui.QMessageBox.warning(None,"Force Shot-Step Context","tk-nuke-forceshotstep Could not switch context! Check to be sure that the current shot has a compositing task.")
-        raise TankError("tk-nuke-forceshotstep Could not switch context! Check to be sure that the current shot has a compositing task.")
+        #QtGui.QMessageBox.warning(None,"Force Shot-Step Context","tk-nuke-forceshotstep Could not switch context! Check to be sure that the nuke script is named correctly and that the current shot has a compositing task.")
+        raise TankError("tk-nuke-forceshotstep Could not switch context! Check to be sure that the nuke script is named correctly and that the current shot has a compositing task.")
 
 def auto_switch():
     # We must run this in the main thread, but it's being called from a timer.
