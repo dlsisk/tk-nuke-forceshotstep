@@ -12,10 +12,14 @@
 
 # expected fields in the configuration file for this engine
 configuration:
+    pipeline_step:
+        type: str
+        description: The short name of the pipeline step to switch to.
+        default_value: "Comp"
 
 # this app works in all engines - it does not contain 
 # any host application specific commands
-supported_engines: 
+supported_engines: [tk-nuke,tk-nukestudio]
 
 # the Shotgun fields that this engine needs in order to operate correctly
 requires_shotgun_fields:

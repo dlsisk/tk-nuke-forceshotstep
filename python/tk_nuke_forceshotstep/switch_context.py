@@ -22,44 +22,26 @@ from .ui.dialog import Ui_Dialog
 
 def execute():
     try:
+        step = sgtk.platform.current_bundle().get_setting("pipeline_step")
         context = sgtk.platform.current_engine().context
         currentShot = context.entity
         filters = [["project", "is", context.project],
-                ["step", "name_contains", "Compositing"],
+                ["step", "name_contains", step],
                 ['entity', 'is', currentShot]]
         fields = ['id']
         result = sgtk.platform.current_engine().shotgun.find("Task", filters, fields)
         tk = sgtk.sgtk_from_entity("Task",result[0]["id"])
         ctx = tk.context_from_entity("Task", result[0]["id"])
         print "Changing context to " +str(ctx)
-        # Old Code
-        #sgtk.platform.current_engine().destroy()
-        #sgtk.platform.start_engine('tk-nuke',ctx.tank, ctx)
-        
-        # New Code
         sgtk.platform.change_context(ctx)
     except:
-        #QtGui.QMessageBox.warning(None,"Force Shot-Step Context","tk-nuke-forceshotstep Could not switch context! Check to be sure that the nuke script is named correctly and that the current shot has a compositing task.")
-        raise TankError("tk-nuke-forceshotstep Could not switch context! Check to be sure that the nuke script is named correctly and that the current shot has a compositing task.")
+        #QtGui.QMessageBox.warning(None,"Force Shot-Step Context","tk-nuke-forceshotstep Could not switch context! Check to be sure that the nuke script is named correctly and that the current shot has a task in the work area defined in the configuration.")
+        raise TankError("tk-nuke-forceshotstep Could not switch context! Check to be sure that the nuke script is named correctly and that the current shot has a task in the work area definted in the configuration.")
 
 def auto_switch():
     # We must run this in the main thread, but it's being called from a timer.
     sgtk.platform.current_engine().execute_in_main_thread(execute)
     
-#We may never need these. We'll see.
-def show_dialog(app_instance):
-    """
-    Shows the main dialog window.
-    """
-    # in order to handle UIs seamlessly, each toolkit engine has methods for launching
-    # different types of windows. By using these methods, your windows will be correctly
-    # decorated and handled in a consistent fashion by the system. 
-    
-    # we pass the dialog class to this method and leave the actual construction
-    # to be carried out by toolkit.
-    app_instance.engine.show_dialog("Starter Template App...", app_instance, AppDialog)
-    
-
 
 class AppDialog(QtGui.QWidget):
     """
